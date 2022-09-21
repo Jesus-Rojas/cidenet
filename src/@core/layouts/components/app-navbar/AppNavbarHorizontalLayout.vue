@@ -2,7 +2,7 @@
   <div class="navbar-container d-flex content align-items-center">
 
     <!-- Nav Menu Toggler -->
-    <ul class="nav navbar-nav d-xl-none">
+    <!-- <ul class="nav navbar-nav d-xl-none">
       <li class="nav-item">
         <b-link
           class="nav-link"
@@ -14,20 +14,20 @@
           />
         </b-link>
       </li>
-    </ul>
+    </ul> -->
 
     <!-- Left Col -->
     <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
-      <bookmarks />
+      <!-- <bookmarks /> -->
     </div>
 
     <!-- Right Col -->
     <b-navbar-nav class="nav align-items-center ml-auto">
-      <locale />
+      <!-- <locale /> -->
       <dark-Toggler class="d-none d-lg-block" />
-      <search-bar />
+      <!-- <search-bar />
       <cart-dropdown />
-      <notification-dropdown />
+      <notification-dropdown /> -->
       <user-dropdown />
     </b-navbar-nav>
   </div>

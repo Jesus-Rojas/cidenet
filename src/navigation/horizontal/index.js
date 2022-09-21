@@ -35,11 +35,11 @@ import others from './others'
 // Array of sections
 export default [
   ...inventory,
-  ...dashboard, 
-  ...apps, 
-  ...uiElements, 
-  ...formAndTable, 
-  ...pages, 
-  ...chartsAndMaps, 
-  ...others,
+  // ...dashboard, 
+  // ...apps, 
+  // ...uiElements, 
+  // ...formAndTable, 
+  // ...pages, 
+  // ...chartsAndMaps, 
+  // ...others,
 ]

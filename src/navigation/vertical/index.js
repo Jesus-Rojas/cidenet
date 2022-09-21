@@ -42,9 +42,9 @@ import formAndTable from './forms-and-table'
 export default [
   ...inventory,
   // ...dashboard, 
-  ...appsAndPages, 
-  ...uiElements, 
-  ...formAndTable, 
-  ...chartsAndMaps, 
-  ...others,
+  // ...appsAndPages, 
+  // ...uiElements, 
+  // ...formAndTable, 
+  // ...chartsAndMaps, 
+  // ...others,
 ]
