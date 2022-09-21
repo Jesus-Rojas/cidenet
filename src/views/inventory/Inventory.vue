@@ -39,7 +39,7 @@
             <b-form-input
               v-model="search"
               class="d-inline-block mr-1"
-              placeholder="Search..."
+              placeholder="Search Location"
             />
           </div>
         </b-col>
@@ -68,47 +68,64 @@
       <template #row-details="row">
         <b-card>
           <b-row class="pt-md-1">
-            <b-col cols="12" md="3">
-              Manufacturer: <span class="ml-2">{{ row.item.manufacturer }}</span>
+            <b-col cols="12" class="d-md-none">
+              <span class="w-50 d-inline-block">Id:</span>
+              <span class="w-50 d-inline-block">{{ row.item.id }}</span>
             </b-col>
-            <b-col cols="12" md="3">
-              Storage System: <span class="ml-2">{{ row.item.storage_system }}</span>
+            <b-col cols="12" class="d-md-none">>
+              <span class="w-50 d-inline-block">Location:</span>
+              <span class="w-50 d-inline-block">{{ row.item.location }}</span>
             </b-col>
-            <b-col cols="12" md="3">
-              Condition: <span class="ml-2">{{ row.item.condition }}</span>
+            <b-col cols="12" class="d-md-none">
+              <span class="w-50 d-inline-block">Serial:</span>
+              <span class="w-50 d-inline-block">{{ row.item.serial }}</span>
             </b-col>
-          </b-row>
-
-          <b-row class="pt-md-1">
-            <b-col cols="12" md="3">
-              I Max: <span class="ml-2">{{ row.item.i_max }}</span>
-            </b-col>
-            <b-col cols="12" md="3">
-              I B: <span class="ml-2">{{ row.item.i_b }}</span>
-            </b-col>
-            <b-col cols="12" md="3">
-              I N: <span class="ml-2">{{ row.item.i_n }}</span>
-            </b-col>
-            <b-col cols="12" md="3">
-              Seals: <span class="ml-2">{{ row.item.seals }}</span>
-            </b-col>
-          </b-row>
-
-          <b-row class="py-md-1">
-            <b-col cols="12" md="6">
-              Purchase: <span class="ml-2">{{ row.item.purchase }}</span>
+            <b-col cols="12" class="d-lg-none">
+              <span class="w-50 d-inline-block">Connection Type:</span>
+              <span class="w-50 d-inline-block">{{ row.item.connection_type }}</span>
             </b-col>
             <b-col cols="12" md="6">
-              Created At: <span class="ml-2">{{ row.item.created_at }}</span>
+              <span class="w-50 d-inline-block">Manufacturer:</span>
+              <span class="w-50 d-inline-block">{{ row.item.manufacturer }}</span>
             </b-col>
-          </b-row>
-
-          <b-row class="py-md-1">
             <b-col cols="12" md="6">
-              Updated At: <span class="ml-2">{{ row.item.updated_at }}</span>
+              <span class="w-50 d-inline-block">Storage System:</span>
+              <span class="w-50 d-inline-block">{{ row.item.storage_system }}</span>
+            </b-col>
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">Condition:</span>
+              <span class="w-50 d-inline-block">{{ row.item.condition }}</span>
+            </b-col>
+
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">I Max:</span>
+              <span class="w-50 d-inline-block">{{ row.item.i_max }}</span>
+            </b-col>
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">I B:</span>
+              <span class="w-50 d-inline-block">{{ row.item.i_b }}</span>
+            </b-col>
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">I N:</span>
+              <span class="w-50 d-inline-block">{{ row.item.i_n }}</span>
+            </b-col>
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">Seals:</span>
+              <span class="w-50 d-inline-block">{{ row.item.seals }}</span>
+            </b-col>
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">Purchase:</span>
+              <span class="w-50 d-inline-block">{{ row.item.purchase }}</span>
+            </b-col>
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">Created At:</span>
+              <span class="w-50 d-inline-block">{{ row.item.created_at }}</span>
+            </b-col>
+            <b-col cols="12" md="6">
+              <span class="w-50 d-inline-block">Updated At:</span>
+              <span class="w-50 d-inline-block">{{ row.item.updated_at }}</span>
             </b-col>
           </b-row>
-
 
           <b-button
             size="sm"
@@ -169,6 +186,7 @@
 
           <b-pagination
             v-model="currentPage"
+            @change="getMeters"
             :total-rows="totalItems"
             :per-page="perPage"
             first-number
@@ -222,10 +240,28 @@ export default {
     AddInventory, EditInventory,
     Toast,
   },
+  watch: {
+    search() {
+      this.getMeters()
+    }
+  },
   methods: {
-    async getMeters() {
-      const { items, pages, page, total } = await api.get()
+    async getMeters(page = 1) {
+      console.log(page);
+      let params = `size=${this.perPage}&page=${page - 1}`
+      if (this.search) {
+        params += `&location=${this.search}`
+      }
+
+      const { items, total } = await api.get(params)
       this.items = items
+      this.currentPage = page
+      this.totalItems = total
+      this.dataMeta = {
+        from: ((page - 1) * this.perPage) + 1 ,
+        to: page  * this.perPage,
+        of: total,
+      }
     },
     messageForms({ condicion, type }){
       if (condicion) {
@@ -279,13 +315,13 @@ export default {
       inventory: {},
       items: [],
       columns: [
-        'detail',
-        'id',
-        'serial',
-        'connection_type',
-        'owner',
-        'location',
-        'actions',
+        { key: 'detail' },
+        { key: 'id', thClass: 'd-none d-sm-table-cell', tdClass: 'd-none d-sm-table-cell' },
+        { key: 'serial', thClass: 'd-none d-md-table-cell', tdClass: 'd-none d-md-table-cell' },
+        { key: 'connection_type', thClass: 'd-none d-lg-table-cell', tdClass: 'd-none d-lg-table-cell' },
+        { key: 'owner' },
+        { key: 'location', thClass: 'd-none d-md-table-cell', tdClass: 'd-none d-md-table-cell' },
+        { key: 'actions' },
       ],
       addModal: false,
       editModal: false,

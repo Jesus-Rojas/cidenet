@@ -2,8 +2,8 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-const get = async () => { 
-  const res = await fetch(`${process.env.VUE_APP_RUTA}/meters?size=10&page=0`)
+const get = async (params) => { 
+  const res = await fetch(`${process.env.VUE_APP_RUTA}/meters?${params}`)
   return await res.json()
 }
 

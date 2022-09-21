@@ -41,7 +41,7 @@
             class="mb-1 font-weight-bold"
             title-tag="h2"
           >
-            Welcome to Vuexy! 👋
+            Welcome to CELSIA! 👋
           </b-card-title>
           <b-card-text class="mb-2">
             Please sign-in to your account and start the adventure
@@ -55,9 +55,9 @@
               <p>
                 <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>
               </p>
-              <p>
+              <!-- <p>
                 <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>
-              </p>
+              </p> -->
             </div>
             <feather-icon
               v-b-tooltip.hover.left="'This is just for ACL demo purpose'"
@@ -101,12 +101,12 @@
 
               <!-- forgot password -->
               <b-form-group>
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                   <label for="login-password">Password</label>
                   <b-link :to="{name:'auth-forgot-password'}">
                     <small>Forgot Password?</small>
                   </b-link>
-                </div>
+                </div> -->
                 <validation-provider
                   #default="{ errors }"
                   name="Password"
@@ -139,7 +139,7 @@
               </b-form-group>
 
               <!-- checkbox -->
-              <b-form-group>
+              <!-- <b-form-group>
                 <b-form-checkbox
                   id="remember-me"
                   v-model="status"
@@ -147,7 +147,7 @@
                 >
                   Remember Me
                 </b-form-checkbox>
-              </b-form-group>
+              </b-form-group> -->
 
               <!-- submit buttons -->
               <b-button
@@ -161,22 +161,21 @@
             </b-form>
           </validation-observer>
 
-          <b-card-text class="text-center mt-2">
+          <!-- <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
             <b-link :to="{name:'auth-register'}">
               <span>&nbsp;Create an account</span>
             </b-link>
           </b-card-text>
 
-          <!-- divider -->
           <div class="divider my-2">
             <div class="divider-text">
               or
             </div>
-          </div>
+          </div> -->
 
           <!-- social buttons -->
-          <div class="auth-footer-btn d-flex justify-content-center">
+          <div class="auth-footer-btn d-flex justify-content-center mt-2">
             <b-button
               variant="facebook"
               href="javascript:void(0)"

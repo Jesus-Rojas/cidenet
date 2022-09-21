@@ -19,7 +19,7 @@ export default [
       redirectIfLoggedIn: true,
     },
   },
-  {
+  /* {
     path: '/pages/authentication/login-v1',
     name: 'auth-login-v1',
     component: () => import('@/views/pages/authentication/Login-v1.vue'),
@@ -318,5 +318,5 @@ export default [
         },
       ],
     },
-  },
+  }, */
 ]

@@ -22,15 +22,15 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   },
   routes: [
-    { path: '/', redirect: { name: 'dashboard-ecommerce' } },
-    ...apps,
-    ...dashboard,
+    { path: '/', redirect: { name: 'inventory' } },
+    // ...apps,
+    // ...dashboard,
     ...pages,
-    ...chartsMaps,
-    ...formsTable,
-    ...uiElements,
+    // ...chartsMaps,
+    // ...formsTable,
+    // ...uiElements,
     ...inventory,
-    ...others,
+    // ...others,
     {
       path: '*',
       redirect: 'error-404',
