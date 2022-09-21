@@ -2,13 +2,19 @@
   <b-card
     no-body
   >
+    <add-inventory 
+      :datos="dataForms"
+      @close="messageForms($event); addModal = false;"
+      v-if="addModal"
+    />
+    <!-- <edit-inventory 
+      :datos="dataForms"
+      @close="messageForms($event); editModal = false;"
+      v-if="editModal"
+    /> -->
 
     <div class="m-2">
-
-      <!-- Table Top -->
       <b-row>
-
-        <!-- Per Page -->
         <b-col
           cols="12"
           md="6"
@@ -22,7 +28,6 @@
           </b-button>
         </b-col>
 
-        <!-- Search -->
         <b-col
           cols="12"
           md="6"
@@ -195,44 +200,71 @@ import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BTooltip, BFormCheckbox,
 } from 'bootstrap-vue'
-// import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
+
+import AddInventory from './AddInventory.vue'
+// import EditInventory from './EditInventory.vue'
 
 export default {
   components: {
     BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
     BBadge, BDropdown, BDropdownItem, BPagination, BTooltip, BFormCheckbox,
     vSelect,
+    AddInventory, 
+    // EditInventory,
   },
   methods: {
     async getMeters() {
-      const res = await fetch(`${process.env.VUE_APP_RUTA}/meters`)
+      const res = await fetch(`${process.env.VUE_APP_RUTA}/meters?size=10&page=0`)
       const { items, pages, page, total } = await res.json()
       this.items = items
+    },
+    messageForms(condicion){
+      if (condicion) {
+        // Update table
+      }
+    },
+  },
+  data() {
+    const transformData = (arr) => { 
+      return arr.map(value => ({ value }))
+    }
+
+    const connectionOptions = transformData([ 'directa', 'semi-directa', 'indirecta' ])
+    const conditionOptions = transformData([ 'nuevo', 'usado' ])
+    const storageOptions = transformData([ 'interno', 'externo' ])
+    const ownerOptions = transformData([ 'RF', 'OR' ])
+
+    return {
+      dataForms: {
+        connectionOptions,
+        conditionOptions,
+        storageOptions,
+        ownerOptions,
+      },
+      items: [],
+      columns: [
+        'detail',
+        'id',
+        'serial',
+        'connection_type',
+        'owner',
+        'location',
+        'actions',
+      ],
+      addModal: false,
+      editModal: false,
+      search: '',
+      currentPage: 1,
+      totalItems: 1,
+      perPage: 10,
+      dataMeta: {
+        from: 1,
+        to: 1,
+        of: 1
+      },
     }
   },
-  data: () => ({
-    items: [],
-    columns: [
-      'detail',
-      'id',
-      'serial',
-      'connection_type',
-      'owner',
-      'location',
-      'actions',
-    ],
-    addModal: false,
-    search: '',
-    currentPage: 1,
-    totalItems: 1,
-    perPage: 10,
-    dataMeta: {
-      from: 1,
-      to: 1,
-      of: 1
-    }
-  }),
   created(){
     this.getMeters()
   }

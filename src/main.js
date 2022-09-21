@@ -40,6 +40,9 @@ require('@core/scss/core.scss')
 // import assets styles
 require('@/assets/scss/style.scss')
 
+// Styles flatpickr
+require('flatpickr/dist/flatpickr.css')
+
 Vue.config.productionTip = false
 
 new Vue({
