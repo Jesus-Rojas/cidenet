@@ -72,7 +72,7 @@
               <span class="w-50 d-inline-block">Id:</span>
               <span class="w-50 d-inline-block">{{ row.item.id }}</span>
             </b-col>
-            <b-col cols="12" class="d-md-none">>
+            <b-col cols="12" class="d-md-none">
               <span class="w-50 d-inline-block">Location:</span>
               <span class="w-50 d-inline-block">{{ row.item.location }}</span>
             </b-col>
