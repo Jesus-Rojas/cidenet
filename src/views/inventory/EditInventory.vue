@@ -225,7 +225,7 @@
           type="button"
           class="float-right ml-1"
         >
-          <span class="text-nowrap">Agregar</span>
+          <span class="text-nowrap">Editar</span>
         </b-button>
         <b-button
           variant="secondary"
@@ -266,6 +266,11 @@ export default {
       type: Object,
       default: () => {}
     },
+    inventory: {
+      required: true,
+      type: Object,
+      default: () => {}
+    },
   },
   methods: {
     onHide() {
@@ -295,8 +300,8 @@ export default {
         purchase: this.form.purchase,
       }
 
-      const res = await fetch(`${process.env.VUE_APP_RUTA}/meters`, {
-        method: 'POST',
+      const res = await fetch(`${process.env.VUE_APP_RUTA}/meters/${this.inventory.id}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -307,22 +312,23 @@ export default {
     },
   },
   data() {
+    const getObject = (value) => ({ value })
 
     return {
       show: true,
       form: {
-        connection: null,
-        condition: null,
-        storage: null,
-        owner: null,
-        serial: '',
-        manufacturer: '',
-        location: '',
-        purchase: '',
-        iMax: null,
-        iB: null,
-        iN: null,
-        seals: null,
+        connection: getObject(this.inventory.connection_type),
+        condition: getObject(this.inventory.condition),
+        storage: getObject(this.inventory.storage_system),
+        owner: getObject(this.inventory.owner),
+        serial: this.inventory.serial,
+        manufacturer: this.inventory.manufacturer,
+        location: this.inventory.location,
+        purchase: this.inventory.purchase,
+        iMax: this.inventory.i_max,
+        iB: this.inventory.i_b,
+        iN: this.inventory.i_n,
+        seals: this.inventory.seals,
       },
       configFlatPick: {
         enableTime: true,

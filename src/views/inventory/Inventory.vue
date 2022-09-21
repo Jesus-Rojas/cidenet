@@ -7,11 +7,12 @@
       @close="messageForms($event); addModal = false;"
       v-if="addModal"
     />
-    <!-- <edit-inventory 
+    <edit-inventory 
       :datos="dataForms"
+      :inventory="inventory"
       @close="messageForms($event); editModal = false;"
       v-if="editModal"
-    /> -->
+    />
 
     <div class="m-2">
       <b-row>
@@ -135,7 +136,7 @@
                 class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item @click="editModal(data.item.id)">
+            <b-dropdown-item @click="inventory = data.item; editModal = true">
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item>
@@ -203,7 +204,7 @@ import {
 import vSelect from 'vue-select'
 
 import AddInventory from './AddInventory.vue'
-// import EditInventory from './EditInventory.vue'
+import EditInventory from './EditInventory.vue'
 
 export default {
   components: {
@@ -211,7 +212,7 @@ export default {
     BBadge, BDropdown, BDropdownItem, BPagination, BTooltip, BFormCheckbox,
     vSelect,
     AddInventory, 
-    // EditInventory,
+    EditInventory,
   },
   methods: {
     async getMeters() {
@@ -221,8 +222,11 @@ export default {
     },
     messageForms(condicion){
       if (condicion) {
-        // Update table
+        this.getMeters()
       }
+    },
+    deleteModal(id) {
+      //
     },
   },
   data() {
@@ -242,6 +246,7 @@ export default {
         storageOptions,
         ownerOptions,
       },
+      inventory: {},
       items: [],
       columns: [
         'detail',
