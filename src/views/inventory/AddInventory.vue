@@ -249,8 +249,10 @@ import {
 import { required } from "@validations";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import vSelect from "vue-select";
-
 import DateTimePicker from "vue-flatpickr-component";
+
+// Services
+import api from '@/services/inventory'
 
 export default {
   components: {
@@ -295,14 +297,7 @@ export default {
         purchase: this.form.purchase,
       }
 
-      const res = await fetch(`${process.env.VUE_APP_RUTA}/meters`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(datos)
-      })
-      await res.json()
+      await api.add(datos)
       this.$emit('close', true)
     },
   },

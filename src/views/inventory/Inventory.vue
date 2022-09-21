@@ -4,15 +4,17 @@
   >
     <add-inventory 
       :datos="dataForms"
-      @close="messageForms($event); addModal = false;"
+      @close="messageForms({ condicion: $event, type: 'add' });"
       v-if="addModal"
     />
     <edit-inventory 
       :datos="dataForms"
       :inventory="inventory"
-      @close="messageForms($event); editModal = false;"
+      @close="messageForms({ condicion: $event, type: 'edit' });"
       v-if="editModal"
     />
+
+    <Toast ref="toast" />
 
     <div class="m-2">
       <b-row>
@@ -140,8 +142,8 @@
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item>
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" @click="deleteModal(data.item.id)"/>
+            <b-dropdown-item @click="deleteModal(data.item.id)">
+              <feather-icon icon="TrashIcon"/>
               <span class="align-middle ml-50">Delete</span>
             </b-dropdown-item>
           </b-dropdown>
@@ -197,36 +199,64 @@
 </template>
 
 <script>
+// Librerias
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BTooltip, BFormCheckbox,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
+import Toast from "@core/components/toast";
 
+// Custom
 import AddInventory from './AddInventory.vue'
 import EditInventory from './EditInventory.vue'
+
+// Services
+import api from '@/services/inventory'
 
 export default {
   components: {
     BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
     BBadge, BDropdown, BDropdownItem, BPagination, BTooltip, BFormCheckbox,
     vSelect,
-    AddInventory, 
-    EditInventory,
+    AddInventory, EditInventory,
+    Toast,
   },
   methods: {
     async getMeters() {
-      const res = await fetch(`${process.env.VUE_APP_RUTA}/meters?size=10&page=0`)
-      const { items, pages, page, total } = await res.json()
+      const { items, pages, page, total } = await api.get()
       this.items = items
     },
-    messageForms(condicion){
+    messageForms({ condicion, type }){
       if (condicion) {
         this.getMeters()
+        if (type == 'edit') {
+          this.editModal = false;
+          return this.$refs.toast.success({ text: 'El registro se actualizo' })
+        }
+        this.addModal = false;
+        return this.$refs.toast.success({ text: 'El registro se creo' })
       }
     },
-    deleteModal(id) {
-      //
+    async deleteModal(id) {
+      const { isConfirmed } = await this.$swal({
+        title: 'Eliminar',
+        text: 'Desea continuar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1',
+        },
+        buttonsStyling: false,
+      })
+
+      if (isConfirmed) {
+        await api.remove(id)
+        this.$refs.toast.success({ text: 'El registro se elimino' })
+      }
     },
   },
   data() {
