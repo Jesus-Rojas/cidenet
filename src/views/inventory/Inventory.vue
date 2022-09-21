@@ -273,6 +273,8 @@ export default {
         this.addModal = false;
         return this.$refs.toast.success({ text: 'El registro se creo' })
       }
+      this.editModal = false;
+      this.addModal = false;
     },
     async deleteModal(id) {
       const { isConfirmed } = await this.$swal({

@@ -276,7 +276,7 @@ export default {
   },
   methods: {
     onHide() {
-      this.$emit('close')
+      this.$emit('close', null)
     },
     async validationForm() {
       const condicion = await this.$refs.simpleRules.validate()
