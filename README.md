@@ -2,7 +2,7 @@
 
 ## Requerimientos
 
-- Node 16
+- Node 14
 
 ## Instalacion
 
